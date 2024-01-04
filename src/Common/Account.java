@@ -9,11 +9,12 @@ public class Account implements Serializable{
 
     public List<Message> messageBox;
 
-    public int index=0;
+
 
     Account(int id, String name){
 
         authToken=id;
+        username = name;
 
     }
 
