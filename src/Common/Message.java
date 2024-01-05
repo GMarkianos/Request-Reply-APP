@@ -5,11 +5,19 @@ public class Message implements Serializable {
     public boolean Read;
     public String sender;
     public String receiver;
-    public String Body;
+    public String body;
+    int id;
 
+    public Message(String sender, String receiver, String body,int id){
+        sender = this.sender;
+        receiver = this.receiver;
+        body = this.body;
+        Read = false;
+        id = this.id;
+    }
 
     public void setBody(String body) {
-        Body = body;
+        body = this.body;
     }
 
     public void setReceiver(String receiver) {
@@ -24,9 +32,7 @@ public class Message implements Serializable {
         Read = read;
     }
 
-    public String getBody() {
-        return Body;
-    }
+    public String getBody() {return body;}
 
     public String getReceiver() {
         return receiver;
@@ -37,5 +43,8 @@ public class Message implements Serializable {
     }
     public boolean getRead(){
         return Read;
+    }
+    public int getID(){
+        return id;
     }
 }

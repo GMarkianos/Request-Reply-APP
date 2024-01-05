@@ -16,7 +16,7 @@ public class Account implements Serializable{
 
         authToken=id;
         username = name;
-        List<Message> messageBox = new ArrayList<>();
+        List<Message> messageBox;
 
     }
 
@@ -40,7 +40,7 @@ public class Account implements Serializable{
         return messageBox;
     }
 
-    public void setMessageBox(List<Message> messageBox) {
-        this.messageBox = messageBox;
+    public void setMessageBox(Message m){
+        messageBox.add(m);
     }
 }

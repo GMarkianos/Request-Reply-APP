@@ -11,7 +11,7 @@ public interface Interface extends Remote{
 
     void showInbox(int token) throws RemoteException;
 
-    void readMessage(int m_id) throws RemoteException;
+    void readMessage(int m_id,int token) throws RemoteException;
 
-    void deleteMessage(int m_id) throws RemoteException;
+    void deleteMessage(int m_id,int token) throws RemoteException;
 }
