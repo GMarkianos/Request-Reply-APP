@@ -1,5 +1,7 @@
 package Common;
 import java.rmi.*;
+import java.util.List;
+
 public interface Interface extends Remote{
     int createAccount(String name) throws RemoteException;
 

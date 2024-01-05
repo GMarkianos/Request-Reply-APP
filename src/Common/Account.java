@@ -1,5 +1,6 @@
 package Common;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Account implements Serializable{
@@ -11,10 +12,11 @@ public class Account implements Serializable{
 
 
 
-    Account(int id, String name){
+    public Account(int id, String name){
 
         authToken=id;
         username = name;
+        List<Message> messageBox = new ArrayList<>();
 
     }
 
