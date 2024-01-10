@@ -1,8 +1,3 @@
-package Server;
-import Common.Account;
-import Common.Interface;
-import Common.Message;
-
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -12,12 +7,20 @@ public class MessagingServer extends UnicastRemoteObject implements Interface {
     public MessagingServer() throws RemoteException {
         super();
     }
-    int authToken=1000;
+    public static int authToken=1000;
     int message_id=1;
     public List<Account> accounts = new ArrayList<>();
+    public boolean authVer(int token) throws RemoteException{
+        for(Account i:accounts){
+            if(i.getAuthToken()==token){
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public int createAccount(String name) throws RemoteException {
-        if(!name.matches("[A-Za-z0-9]-")){System.out.println("Invalid Username\n"); return 0;}
+        if(!name.matches("[a-zA-Z0-9-]*")){System.out.println("Invalid Username\n"); return 0;}
         for(Account i:accounts){
             if(i.getUsername().equals(name)){
                 System.out.println("Sorry, the user already exists\n");
@@ -32,7 +35,11 @@ public class MessagingServer extends UnicastRemoteObject implements Interface {
     }
 
     @Override
-    public void showAccounts() throws RemoteException {
+    public void showAccounts(int token) throws RemoteException {
+        if(!authVer(token)){
+            System.out.println("Invalid Auth Token");
+            return;
+        }
         int index=1;
         for(Account i:accounts){
             System.out.println(index+"."+i.username);
@@ -42,12 +49,20 @@ public class MessagingServer extends UnicastRemoteObject implements Interface {
 
     @Override
     public void sendMessage(String recipient, String text, int token) throws RemoteException {
-        String sender=null;
-        for(Account i:accounts){if(i.getAuthToken()==token){sender = i.getUsername();}}
+        if(!authVer(token)){
+            System.out.println("Invalid Auth Token");
+            return;
+        }
+        String sender="";
+            for (Account i : accounts) {
+                if (i.getAuthToken() == token) {
+                    sender = i.username;
+                }
+            }
+
         Message message = new Message(sender,recipient,text,message_id);
         message_id++;
         boolean flag=false;
-
         for(Account j:accounts){
             if(j.getUsername().equals(recipient)){
                 j.messageBox.add(message);
@@ -61,15 +76,17 @@ public class MessagingServer extends UnicastRemoteObject implements Interface {
 
     @Override
     public void showInbox(int token) throws RemoteException {
-        List<Message> inbox;
+        if(!authVer(token)){
+            System.out.println("Invalid Auth Token");
+            return;
+        }
         for(Account i:accounts){
             if(i.getAuthToken()==token){
-                inbox = i.getMessageBox();
-                for(Message j: inbox){
+                for(Message j: i.messageBox){
                     if(j.getRead()){
-                        System.out.println(j.getID()+". from: "+j.getSender()+"\n");
+                        System.out.println(j.id+". from: "+j.sender+"\n");
                     }else{
-                        System.out.println(j.getID()+". from: "+j.getSender()+"*\n");
+                        System.out.println(j.id+". from: "+j.sender+"*\n");
                     }
                 }
             }
@@ -79,6 +96,10 @@ public class MessagingServer extends UnicastRemoteObject implements Interface {
 
     @Override
     public void readMessage(int m_id,int token) throws RemoteException {
+        if(!authVer(token)){
+            System.out.println("Invalid Auth Token");
+            return;
+        }
         boolean flag = false;
         for(Account i:accounts){
             if(i.getAuthToken()==token){
@@ -97,6 +118,10 @@ public class MessagingServer extends UnicastRemoteObject implements Interface {
 
     @Override
     public void deleteMessage(int m_id,int token) throws RemoteException {
+        if(!authVer(token)){
+            System.out.println("Invalid Auth Token");
+            return;
+        }
         boolean flag = false;
         for(Account i:accounts){
             if(i.getAuthToken()==token){

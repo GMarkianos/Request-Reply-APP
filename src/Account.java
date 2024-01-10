@@ -1,4 +1,3 @@
-package Common;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,7 @@ public class Account implements Serializable{
 
         authToken=id;
         username = name;
-        List<Message> messageBox;
+        messageBox = new ArrayList<>();
 
     }
 

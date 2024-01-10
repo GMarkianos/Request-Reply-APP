@@ -1,4 +1,3 @@
-package Common;
 import java.io.*;
 
 public class Message implements Serializable {
@@ -9,23 +8,11 @@ public class Message implements Serializable {
     int id;
 
     public Message(String sender, String receiver, String body,int id){
-        sender = this.sender;
-        receiver = this.receiver;
-        body = this.body;
-        Read = false;
-        id = this.id;
-    }
-
-    public void setBody(String body) {
-        body = this.body;
-    }
-
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
-    }
-
-    public void setSender(String sender) {
         this.sender = sender;
+        this.receiver = receiver;
+        this.body = body;
+        Read = false;
+        this.id = id;
     }
 
     public void setRead(boolean read) {
@@ -33,10 +20,6 @@ public class Message implements Serializable {
     }
 
     public String getBody() {return body;}
-
-    public String getReceiver() {
-        return receiver;
-    }
 
     public String getSender() {
         return sender;
